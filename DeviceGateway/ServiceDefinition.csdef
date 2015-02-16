@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="DeviceGateway" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
+  <WorkerRole name="FrontDoor" vmsize="Small">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.ServiceBus.ConnectionString" />
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+  </WorkerRole>
+  <WorkerRole name="Device" vmsize="Small" >
+    <Runtime executionContext="elevated"></Runtime>
+    <Imports></Imports>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+    <LocalResources>
+      <LocalStorage name="LocalStoreDirectory" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <Endpoints>
+      <InputEndpoint name="OrleansSiloEndpoint" protocol="tcp" port="11111" />
+      <InputEndpoint name="OrleansProxyEndpoint" protocol="tcp" port="30000" />
+    </Endpoints>
+  </WorkerRole>
+</ServiceDefinition>
